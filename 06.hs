@@ -1,5 +1,5 @@
-import qualified Data.List
-import qualified Data.Maybe
+import Data.List (elemIndex)
+import Data.Maybe (fromJust)
 
 -- Calculate the amount a bank with a certain offset from the first bank behind the one being rebalanced should get
 rebalancePosition :: Int -> Int -> Int -> Int
@@ -11,7 +11,7 @@ rebalanceBanks [] = []
 rebalanceBanks list = do
    let len = length list
    let max = maximum list
-   let idx = Data.Maybe.fromJust (Data.List.elemIndex max list)
+   let idx = fromJust (elemIndex max list)
    [(if i == idx then 0 else x) + (rebalancePosition len max (mod (i - idx - 1) len)) | (x, i) <- (zip list [0..(len - 1)])]
 
 -- Rebalance the banks until a duplicate is encountered

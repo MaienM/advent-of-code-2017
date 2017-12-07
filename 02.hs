@@ -1,5 +1,3 @@
-import qualified Data.List
-
 -- Get the smallest and largest number in a list
 minMax' :: (Int, Int) -> Int -> (Int, Int)
 minMax' (min, max) x = (if x < min then x else min, if x > max then x else max)
@@ -11,7 +9,7 @@ minMax (x:rest) = minMax' (minMax rest) x
 
 -- Get the numbers on a line
 numbers :: String -> [Int]
-numbers line = [read w :: Int | w <- Data.List.words line]
+numbers line = [read w :: Int | w <- words line]
 
 -- Get the difference between two numbers
 diff :: Int -> Int -> Int
