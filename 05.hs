@@ -6,7 +6,7 @@ jumpsToEscape list idx
    | length list <= idx = 0
    | otherwise = do
       let jump = Data.Sequence.index list idx
-      jumpsToEscape (Data.Sequence.update idx (jump + 1) list) (idx + jump) + 1
+      1 + jumpsToEscape (Data.Sequence.update idx (jump + 1) list) (idx + jump)
 
 main = do
    input <- getContents
