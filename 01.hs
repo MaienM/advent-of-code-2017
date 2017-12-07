@@ -1,14 +1,17 @@
--- Move the last element of a list to the first position
-wrap :: [a]  -> [a]
-wrap [] = []
-wrap list = (last list):(init list)
+-- Shift all items in a list by a given amount, wrapping around to the first position for the items at the end
+shift :: [a] -> Int -> [a]
+shift [] _ = []
+shift list n = do
+   let (a, b) = splitAt ((length list) - n) list
+   b ++ a
 
--- When given a list, remove the first consecutive instance of each item, keeping only repeated items
-getRepeating :: [Int] -> [Int]
-getRepeating [] = []
-getRepeating list = [x | (x, y) <- (zip (wrap list) list), x == y]
+-- Get all numbers of tuples that contain the same numbers
+matching :: [(Int, Int)] -> [Int]
+matching [] = []
+matching list = [x | (x, y) <- list, x == y]
 
 main = do
    input <- getLine
    let digits = [read [c] :: Int | c <- input]
-   putStrLn (show (sum (getRepeating digits)))
+   putStrLn (show (sum (matching (zip digits (shift digits 1)))))
+   putStrLn (show (sum (matching (zip digits (shift digits (div (length digits) 2))))))
