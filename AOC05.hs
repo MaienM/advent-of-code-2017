@@ -12,18 +12,14 @@ jumpsToEscape mutator list idx
 
 -- Get the solution for part 1
 partOne :: [Int] -> Int
-partOne digits = jumpsToEscape (+1) (fromList digits) 0
+partOne jumps = jumpsToEscape (+1) (fromList jumps) 0
 
 -- Get the solution for part 2
 partTwo :: [Int] -> Int
-partTwo digits = do
-   let mutator x
-         | x >= 3 = x - 1
-         | otherwise = x + 1
-   jumpsToEscape mutator (fromList digits) 0
+partTwo jumps = jumpsToEscape (\x -> if x >= 3 then x - 1 else x + 1) (fromList jumps) 0
 
 main = do
    input <- getContents
-   let digits = numbers (lines input)
-   putStrLn (show (partOne digits))
-   putStrLn (show (partTwo digits))
+   let jumps = numbers (lines input)
+   putStrLn (show (partOne jumps))
+   putStrLn (show (partTwo jumps))
