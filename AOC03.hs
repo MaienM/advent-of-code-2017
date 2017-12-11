@@ -1,7 +1,4 @@
-{-# LANGUAGE MultiWayIf #-}
-
 module AOC03 where
-
 import Data.Function.Memoize (memoize)
 import Data.List (sort, find)
 import Data.Maybe (fromJust)
@@ -81,19 +78,25 @@ adjacentLowerIndexes' idx = do
 adjacentLowerIndexes :: Int -> [Int]
 adjacentLowerIndexes idx = filter (< idx) (adjacentLowerIndexes' idx)
 
--- Get the value for part two for a given index
-partTwo' :: Int -> Int
-partTwo' 1 = 1
-partTwo' idx = sum (map partTwo (adjacentLowerIndexes idx))
-partTwo = memoize partTwo'
+-- Get the stress test value for a given index
+stressValue' :: Int -> Int
+stressValue' 1 = 1
+stressValue' idx = sum (map stressValue (adjacentLowerIndexes idx))
+stressValue :: Int -> Int
+stressValue = memoize stressValue'
 
--- Find the first result for partTwo that is larger than the given value
-findPartTwo:: Int -> Int
-findPartTwo num = fromJust (find (>num) (map partTwo [1..]))
+-- Get the solution for part 1
+partOne :: Int -> Int
+partOne number = do
+   let (x, y) = indexToOffset number
+   (abs x) + (abs y)
+
+-- Get the solution for part 2
+partTwo :: Int -> Int
+partTwo number = fromJust (find (>number) (map stressValue [1..]))
 
 main = do
    input <- getLine
    let number = read input :: Int
-   let (x, y) = indexToOffset number
-   putStrLn (show (abs x + abs y))
-   putStrLn (show (findPartTwo number))
+   putStrLn (show (partOne number))
+   putStrLn (show (partTwo number))

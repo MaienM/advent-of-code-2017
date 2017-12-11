@@ -1,7 +1,6 @@
 module AOC03Spec where
-
 import Test.Hspec
-import AOC03 (indexToOffset, offsetToIndex, adjacentLowerIndexes, partTwo)
+import AOC03 (indexToOffset, offsetToIndex, adjacentLowerIndexes, stressValue, partOne, partTwo)
 
 main :: IO ()
 main = hspec $ do
@@ -144,29 +143,40 @@ main = hspec $ do
       it "returns the correct indexes for 48" $ adjacentLowerIndexes 48 `shouldMatchList` [24, 25, 26, 47]
       it "returns the correct indexes for 49" $ adjacentLowerIndexes 49 `shouldMatchList` [25, 26, 48]
 
+   describe "stressValue" $ do
+      it "returns the correct value for 1" $ stressValue 1 `shouldBe` 1
+      it "returns the correct value for 2" $ stressValue 2 `shouldBe` 1
+      it "returns the correct value for 3" $ stressValue 3 `shouldBe` 2
+      it "returns the correct value for 4" $ stressValue 4 `shouldBe` 4
+      it "returns the correct value for 5" $ stressValue 5 `shouldBe` 5
+      it "returns the correct value for 6" $ stressValue 6 `shouldBe` 10
+      it "returns the correct value for 7" $ stressValue 7 `shouldBe` 11
+      it "returns the correct value for 8" $ stressValue 8 `shouldBe` 23
+      it "returns the correct value for 9" $ stressValue 9 `shouldBe` 25
+      it "returns the correct value for 10" $ stressValue 10 `shouldBe` 26
+      it "returns the correct value for 11" $ stressValue 11 `shouldBe` 54
+      it "returns the correct value for 12" $ stressValue 12 `shouldBe` 57
+      it "returns the correct value for 13" $ stressValue 13 `shouldBe` 59
+      it "returns the correct value for 14" $ stressValue 14 `shouldBe` 122
+      it "returns the correct value for 15" $ stressValue 15 `shouldBe` 133
+      it "returns the correct value for 16" $ stressValue 16 `shouldBe` 142
+      it "returns the correct value for 17" $ stressValue 17 `shouldBe` 147
+      it "returns the correct value for 18" $ stressValue 18 `shouldBe` 304
+      it "returns the correct value for 19" $ stressValue 19 `shouldBe` 330
+      it "returns the correct value for 20" $ stressValue 20 `shouldBe` 351
+      it "returns the correct value for 21" $ stressValue 21 `shouldBe` 362
+      it "returns the correct value for 22" $ stressValue 22 `shouldBe` 747
+      it "returns the correct value for 23" $ stressValue 23 `shouldBe` 806
+      it "returns the correct value for 24" $ stressValue 24 `shouldBe` 880
+      it "returns the correct value for 25" $ stressValue 25 `shouldBe` 931
+
+   describe "partOne" $ do
+      it "returns the correct value for 1" $ partOne 1 `shouldBe` 0
+      it "returns the correct value for 12" $ partOne 12 `shouldBe` 3
+      it "returns the correct value for 23" $ partOne 23 `shouldBe` 2
+      it "returns the correct value for 1024" $ partOne 1024 `shouldBe` 31
+
    describe "partTwo" $ do
-      it "returns the correct value for 1" $ partTwo 1 `shouldBe` 1
-      it "returns the correct value for 2" $ partTwo 2 `shouldBe` 1
-      it "returns the correct value for 3" $ partTwo 3 `shouldBe` 2
-      it "returns the correct value for 4" $ partTwo 4 `shouldBe` 4
-      it "returns the correct value for 5" $ partTwo 5 `shouldBe` 5
-      it "returns the correct value for 6" $ partTwo 6 `shouldBe` 10
-      it "returns the correct value for 7" $ partTwo 7 `shouldBe` 11
-      it "returns the correct value for 8" $ partTwo 8 `shouldBe` 23
-      it "returns the correct value for 9" $ partTwo 9 `shouldBe` 25
-      it "returns the correct value for 10" $ partTwo 10 `shouldBe` 26
-      it "returns the correct value for 11" $ partTwo 11 `shouldBe` 54
-      it "returns the correct value for 12" $ partTwo 12 `shouldBe` 57
-      it "returns the correct value for 13" $ partTwo 13 `shouldBe` 59
-      it "returns the correct value for 14" $ partTwo 14 `shouldBe` 122
-      it "returns the correct value for 15" $ partTwo 15 `shouldBe` 133
-      it "returns the correct value for 16" $ partTwo 16 `shouldBe` 142
-      it "returns the correct value for 17" $ partTwo 17 `shouldBe` 147
-      it "returns the correct value for 18" $ partTwo 18 `shouldBe` 304
-      it "returns the correct value for 19" $ partTwo 19 `shouldBe` 330
-      it "returns the correct value for 20" $ partTwo 20 `shouldBe` 351
-      it "returns the correct value for 21" $ partTwo 21 `shouldBe` 362
-      it "returns the correct value for 22" $ partTwo 22 `shouldBe` 747
-      it "returns the correct value for 23" $ partTwo 23 `shouldBe` 806
-      it "returns the correct value for 24" $ partTwo 24 `shouldBe` 880
-      it "returns the correct value for 25" $ partTwo 25 `shouldBe` 931
+      it "returns the correct value for 100" $ partTwo 100 `shouldBe` 122
+      it "returns the correct value for 1000" $ partTwo 1000 `shouldBe` 1968
+      it "returns the correct value for 10000" $ partTwo 10000 `shouldBe` 13486
