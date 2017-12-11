@@ -1,5 +1,4 @@
 module AOC01Spec where
-
 import Test.Hspec
 import AOC01 (shift, matching, partOne, partTwo)
 
@@ -24,14 +23,14 @@ main = hspec $ do
       it "returns multiple elements if there are multiple matching items" $ matching [(1, 1), (2, 2)] `shouldBe` [1, 2]
 
    describe "partOne" $ do
-      it "returns 3 for 1122" $ partOne [1, 1, 2, 2] `shouldBe` 3
-      it "returns 4 for 1111" $ partOne [1, 1, 1, 1] `shouldBe` 4
-      it "returns 0 for 1234" $ partOne [1, 2, 3, 4] `shouldBe` 0
-      it "returns 9 for 91212129" $ partOne [9, 1, 2, 1, 2, 1, 2, 9] `shouldBe` 9
+      it "returns the correct value for 1122" $ partOne [1, 1, 2, 2] `shouldBe` 3
+      it "returns the correct value for 1111" $ partOne [1, 1, 1, 1] `shouldBe` 4
+      it "returns the correct value for 1234" $ partOne [1, 2, 3, 4] `shouldBe` 0
+      it "returns the correct value for 91212129" $ partOne [9, 1, 2, 1, 2, 1, 2, 9] `shouldBe` 9
 
    describe "partTwo" $ do
-      it "returns 6 for 1212" $ partTwo [1, 2, 1, 2] `shouldBe` 6
-      it "returns 0 for 1221" $ partTwo [1, 2, 2, 1] `shouldBe` 0
-      it "returns 4 for 123425" $ partTwo [1, 2, 3, 4, 2, 5] `shouldBe` 4
-      it "returns 12 for 123123" $ partTwo [1, 2, 3, 1, 2, 3] `shouldBe` 12
-      it "returns 4 for 12131415" $ partTwo [1, 2, 1, 3, 1, 4, 1, 5] `shouldBe` 4
+      it "returns the correct value for 1212" $ partTwo [1, 2, 1, 2] `shouldBe` 6
+      it "returns the correct value for 1221" $ partTwo [1, 2, 2, 1] `shouldBe` 0
+      it "returns the correct value for 123425" $ partTwo [1, 2, 3, 4, 2, 5] `shouldBe` 4
+      it "returns the correct value for 123123" $ partTwo [1, 2, 3, 1, 2, 3] `shouldBe` 12
+      it "returns the correct value for 12131415" $ partTwo [1, 2, 1, 3, 1, 4, 1, 5] `shouldBe` 4
