@@ -1,6 +1,6 @@
 module AOC07Spec where
 import Test.Hspec
-import AOC07 (parseCommaList, parseLine, partOne, partTwo)
+import AOC07 (Program(Program), Tree(Tree), parseCommaList, parseLine, root, toTree, fullWeight, validateWeight, partOne, partTwo)
 
 exampleInput = [
    "pbga (66)",
@@ -17,6 +17,17 @@ exampleInput = [
    "gyxo (61)",
    "cntj (57)"
    ]
+examplePrograms = [
+   Program "foo" 10 ["a", "b", "c"],
+   Program "a" 10 [],
+   Program "b" 11 [],
+   Program "c" 10 []
+   ]
+exampleTree = Tree (examplePrograms !! 0) [
+   Tree (examplePrograms !! 1) [],
+   Tree (examplePrograms !! 2) [],
+   Tree (examplePrograms !! 3) []
+   ]
 
 main :: IO ()
 main = hspec $ do
@@ -26,11 +37,26 @@ main = hspec $ do
       it "returns the correct value for a,bee, c" $ parseCommaList "a,bee, c" `shouldBe` ["a", "bee", "c"]
 
    describe "parseLine" $ do
-      it "returns the correct value for aaa (10)" $ parseLine "aaa (10)" `shouldBe` ("aaa", 10, [])
-      it "returns the correct value for aaa (10) -> b, c, d" $ parseLine "aaa (10) -> b, c, d" `shouldBe` ("aaa", 10, ["b", "c", "d"])
+      it "returns the correct value for aaa (10)" $ parseLine "aaa (10)" `shouldBe` Program "aaa" 10 []
+      it "returns the correct value for aaa (10) -> b, c, d" $ parseLine "aaa (10) -> b, c, d" `shouldBe` Program "aaa" 10 ["b", "c", "d"]
+
+   describe "root" $ do
+      it "returns the correct value for a simple tree" $ root examplePrograms `shouldBe` "foo"
+
+   describe "toTree" $ do
+      it "returns the correct value for a simple tree" $ toTree examplePrograms `shouldBe` exampleTree
+
+   describe "fullWeight" $ do
+      it "returns the correct value for a node without children" $ fullWeight (Tree (examplePrograms !! 0) []) `shouldBe` 10
+      it "returns the correct value for a node with children" $ fullWeight exampleTree `shouldBe` 41
+
+   describe "validateWeight" $ do
+      it "returns the correct value for a simple tree" $ validateWeight exampleTree `shouldBe` (examplePrograms !! 2, 1)
 
    describe "partOne" $ do
-      it "returns the correct value for the example" $ partOne exampleInput `shouldBe` "tknk"
+      it "returns the correct value for a simple tree" $ partOne examplePrograms `shouldBe` "foo"
+      it "returns the correct value for the example" $ partOne (map parseLine exampleInput) `shouldBe` "tknk"
 
    describe "partTwo" $ do
-      it "returns the correct value for [1, 2, 3]" $ partTwo ["a", "b", "c"] `shouldBe` 0
+      it "returns the correct value for a simple tree" $ partTwo examplePrograms `shouldBe` 10
+      it "returns the correct value for the example" $ partTwo (map parseLine exampleInput) `shouldBe` 60
