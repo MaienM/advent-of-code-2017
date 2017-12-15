@@ -56,11 +56,11 @@ main = hspec $ do
       it "returns the correct value for nonexistent + 1" $ perform (Action "nonexistent" (+) 1) exampleRegisters `shouldBe` 1
 
    describe "apply" $ do
-      it "applies the change when the check passes" $ apply (Instruction (Action "a" (+) 2) (Action "b" (==) 2)) exampleRegisters `shouldBe` (set "a" 3 exampleRegisters)
-      it "does not apply the change when the check fails" $ apply (Instruction (Action "a" (+) 2) (Action "b" (>) 2)) exampleRegisters `shouldBe` exampleRegisters
+      it "applies the change when the check passes" $ apply exampleRegisters (Instruction (Action "a" (+) 2) (Action "b" (==) 2)) `shouldBe` (set "a" 3 exampleRegisters)
+      it "does not apply the change when the check fails" $ apply exampleRegisters (Instruction (Action "a" (+) 2) (Action "b" (>) 2)) `shouldBe` exampleRegisters
 
    describe "partOne" $ do
       it "returns the correct value for the example" $ partOne exampleInstructions `shouldBe` 1
 
    describe "partTwo" $ do
-      it "returns the correct value for [1, 2, 3]" $ partTwo [1, 2, 2] `shouldBe` 0
+      it "returns the correct value for the example" $ partTwo exampleInstructions `shouldBe` 10

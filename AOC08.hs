@@ -18,6 +18,8 @@ data Action a = Action {
    operation :: Int -> Int -> a,
    amount :: Int
 }
+
+-- Peform an action
 perform :: Action a -> Registers -> a
 perform action registers = (operation action) (get (target action) registers) (amount action)
 
@@ -26,11 +28,20 @@ data Instruction = Instruction {
    change :: Action Int,
    check :: Action Bool
 }
-apply :: Instruction -> Registers -> Registers
-apply instruction registers = do
+
+-- Apply an instruction
+apply :: Registers -> Instruction -> Registers
+apply registers instruction = do
    if perform (check instruction) registers
    then set (target (change instruction)) (perform (change instruction) registers) registers
    else registers
+
+-- Version of apply that, in addition to the normal apply, also keeps track of the highest value ever encountered
+apply' :: Registers -> Int -> Instruction -> (Registers, Int)
+apply' registers max instruction = do
+   let newRegisters = apply registers instruction
+   let newValue = get (target (change instruction)) newRegisters
+   (newRegisters, maximum [max, newValue])
 
 -- Parse a line into an Instruction
 -- Makes the assumption that all parts are space-separated
@@ -55,14 +66,14 @@ parseLine line = do
 
 -- Get the solution for part 1
 partOne :: [Instruction] -> Int
-partOne instructions = maximum (Data.Map.elems (foldl (flip apply) emptyRegisters instructions))
+partOne instructions = maximum (Data.Map.elems (foldl apply emptyRegisters instructions))
 
 -- Get the solution for part 2
-partTwo :: [Int] -> Int
-partTwo digits = 0
+partTwo :: [Instruction] -> Int
+partTwo instructions = snd (foldl (uncurry apply') (emptyRegisters, 0) instructions)
 
 main = do
    input <- getContents
    let instructions = map parseLine (lines input)
    putStrLn (show (partOne instructions))
-   --putStrLn (show (partTwo digits))
+   putStrLn (show (partTwo instructions))
