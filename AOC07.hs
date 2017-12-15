@@ -7,6 +7,12 @@ import Data.List ((\\), intercalate, elemIndices)
 import Data.Map (Map)
 import qualified Data.Map
 
+-- Type representing a single program in the tree
+data Program = Program { name :: String, weight :: Int, children :: [String] } deriving (Show, Eq)
+
+-- Type representing a (sub)tree, with the program information + access to the subtrees
+data Tree = Tree { program :: Program, subTrees :: [Tree] } deriving (Show, Eq)
+
 -- Parse a list of comma-separated things into an array
 parseCommaList :: String -> [String]
 parseCommaList "" = []
@@ -15,8 +21,7 @@ parseCommaList str = do
    let strip s = dropWhile (==' ') (reverse (dropWhile (==' ') (reverse s)))
    (strip word):(parseCommaList (strip (dropWhile (==',') rest)))
 
--- Parse a line of the input into name, weight, 'children'
-data Program = Program { name :: String, weight :: Int, children :: [String] } deriving (Show, Eq)
+-- Parse a line into a Program
 deriveMemoizableParams ''Program [0]
 parseLine :: String -> Program
 parseLine line = do
@@ -33,7 +38,6 @@ root programs = do
    head (names \\ nonRoot)
 
 -- Process a list of programs into a tree
-data Tree = Tree { program :: Program, subTrees :: [Tree] } deriving (Show, Eq)
 deriveMemoizableParams ''Tree [0]
 toTree' :: Map String Program -> String -> Tree
 toTree' programs name = do
