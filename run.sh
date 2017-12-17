@@ -8,8 +8,7 @@ clear
 ghc --make AOC$1.hs -main-is AOC$1
 
 # Cleanup build files
-rm AOC$1.hi
-rm AOC$1.o
+find . -type f -regextype posix-extended -regex '.*[.](dyn_)?(hi|o)' -delete
 
 # Run tests, if any
 if [ -f AOC$1Spec.hs ]; then
