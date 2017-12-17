@@ -1,5 +1,4 @@
 module AOC08 where
-import Common (numbers)
 import Data.Map (Map)
 import qualified Data.Map
 
@@ -19,17 +18,17 @@ data Action a = Action {
    amount :: Int
 }
 
--- Peform an action
-perform :: Action a -> Registers -> a
-perform action registers = (operation action) (get (target action) registers) (amount action)
-
 -- Type representing a full register instruction
 data Instruction = Instruction {
    change :: Action Int,
    check :: Action Bool
 }
 
--- Apply an instruction
+-- Peform an Action
+perform :: Action a -> Registers -> a
+perform action registers = (operation action) (get (target action) registers) (amount action)
+
+-- Apply an Instruction
 apply :: Registers -> Instruction -> Registers
 apply registers instruction = do
    if perform (check instruction) registers

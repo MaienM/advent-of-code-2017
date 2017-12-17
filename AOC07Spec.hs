@@ -1,6 +1,6 @@
 module AOC07Spec where
 import Test.Hspec
-import AOC07 (Program(Program), Tree(Tree), parseCommaList, parseLine, root, toTree, fullWeight, validateWeight, partOne, partTwo)
+import AOC07 (Program(Program), Tree(Tree), parseLine, root, toTree, fullWeight, validateWeight, partOne, partTwo)
 
 exampleInput = [
    "pbga (66)",
@@ -31,11 +31,6 @@ exampleTree = Tree (examplePrograms !! 0) [
 
 main :: IO ()
 main = hspec $ do
-   describe "parseCommaList" $ do
-      it "returns the correct value for an empty string" $ parseCommaList "" `shouldBe` []
-      it "returns the correct value for a" $ parseCommaList "a" `shouldBe` ["a"]
-      it "returns the correct value for a,bee, c" $ parseCommaList "a,bee, c" `shouldBe` ["a", "bee", "c"]
-
    describe "parseLine" $ do
       it "returns the correct value for aaa (10)" $ parseLine "aaa (10)" `shouldBe` Program "aaa" 10 []
       it "returns the correct value for aaa (10) -> b, c, d" $ parseLine "aaa (10) -> b, c, d" `shouldBe` Program "aaa" 10 ["b", "c", "d"]

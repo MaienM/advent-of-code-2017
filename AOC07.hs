@@ -1,34 +1,38 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module AOC07 where
+import Common.Parsec (withWhitespace)
+import Control.Applicative ((<*), (*>))
 import Data.Char (isSpace, isDigit, isLetter)
 import Data.Function.Memoize (memoize, deriveMemoizableParams)
 import Data.List ((\\), intercalate, elemIndices)
 import Data.Map (Map)
 import qualified Data.Map
+import qualified Text.ParserCombinators.Parsec as P
 
 -- Type representing a single program in the tree
 data Program = Program { name :: String, weight :: Int, children :: [String] } deriving (Show, Eq)
+deriveMemoizableParams ''Program [0]
 
 -- Type representing a (sub)tree, with the program information + access to the subtrees
 data Tree = Tree { program :: Program, subTrees :: [Tree] } deriving (Show, Eq)
-
--- Parse a list of comma-separated things into an array
-parseCommaList :: String -> [String]
-parseCommaList "" = []
-parseCommaList str = do
-   let (word, rest) = span (/=',') str
-   let strip s = dropWhile (==' ') (reverse (dropWhile (==' ') (reverse s)))
-   (strip word):(parseCommaList (strip (dropWhile (==',') rest)))
+deriveMemoizableParams ''Tree [0]
 
 -- Parse a line into a Program
-deriveMemoizableParams ''Program [0]
+matchName = P.many1 (P.noneOf " (") :: P.Parser String
+matchWeight = P.char '(' *> (read <$> P.many1 P.digit) <* P.char ')' :: P.Parser Int
+matchChild = P.many1 (P.noneOf ",") :: P.Parser String
+matchChildList = P.string "->" *> withWhitespace matchChild `P.sepBy` P.char ',' :: P.Parser [String]
+parseLine' :: P.Parser Program
+parseLine' = do
+   name <- withWhitespace matchName
+   weight <- withWhitespace matchWeight
+   children <- P.option [] (withWhitespace matchChildList)
+   return $ Program name weight children
 parseLine :: String -> Program
 parseLine line = do
-   let (name, restName) = break isSpace line
-   let (number, restNumber) = span isDigit (dropWhile (not . isDigit) restName)
-   let children = parseCommaList (dropWhile (not . isLetter) restNumber)
-   Program name (read number :: Int) children
+   let (Right result) = P.parse parseLine' "" line
+   result
 
 -- Given a list of programs, get the root name
 root :: [Program] -> String
@@ -38,7 +42,6 @@ root programs = do
    head (names \\ nonRoot)
 
 -- Process a list of programs into a tree
-deriveMemoizableParams ''Tree [0]
 toTree' :: Map String Program -> String -> Tree
 toTree' programs name = do
    let program = programs Data.Map.! name
