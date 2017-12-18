@@ -2,7 +2,7 @@ module AOC09Spec where
 import Test.Hspec
 import Test.Hspec.Megaparsec
 import Text.Megaparsec (parse, eof)
-import AOC09 (Node(..), matchEscape, matchGroup, matchGarbage, parseLine, partOne, partTwo)
+import AOC09 (Node(..), matchEscape, matchGarbage, matchGroup, parseLine, partOne, partTwo)
 
 parseE p n i = parse (p <* eof) n i
 
@@ -20,7 +20,7 @@ main = hspec $ do
    describe "matchGarbage" $ do
       it "parses an empty garbage block" $ parseE matchGarbage "" "<>" `shouldParse` (Garbage "")
       it "parses a garbage block with normal text" $ parseE matchGarbage "" "<foo>" `shouldParse` (Garbage "foo")
-      it "parses a garbage block with an escaped end symbol" $ parseE matchGarbage "" "<foo!>>" `shouldParse` (Garbage "foo>")
+      it "parses a garbage block with an escaped end symbol" $ parseE matchGarbage "" "<foo!>>" `shouldParse` (Garbage "foo")
       it "does not parse a garbage block with an unescaped end symbol" $ parseE matchGarbage "" `shouldFailOn` "<foo>>"
       it "does not parse a garbage block with a double escaped end symbol" $ parseE matchGarbage "" `shouldFailOn` "<foo!!>>"
 
@@ -47,5 +47,11 @@ main = hspec $ do
       it "returns the correct value for {{<!!>},{<!!>},{<!!>},{<!!>}}" $ partOne (parseLine "{{<!!>},{<!!>},{<!!>},{<!!>}}") `shouldBe` 9
       it "returns the correct value for {{<a!>},{<a!>},{<a!>},{<ab>}}" $ partOne (parseLine "{{<a!>},{<a!>},{<a!>},{<ab>}}") `shouldBe` 3
 
-   -- describe "partTwo" $ do
-   --    it "returns the correct value for [1, 2, 3]" $ partTwo [1, 2, 2] `shouldBe` 0
+   describe "partTwo" $ do
+      it "returns the correct value for <>" $ partTwo (parseLine "{<>}") `shouldBe` 0
+      it "returns the correct value for <random characters>" $ partTwo (parseLine "{<random characters>}") `shouldBe` 17
+      it "returns the correct value for <<<<>" $ partTwo (parseLine "{<<<<>}") `shouldBe` 3
+      it "returns the correct value for <{!>}>" $ partTwo (parseLine "{<{!>}>}") `shouldBe` 2
+      it "returns the correct value for <!!>" $ partTwo (parseLine "{<!!>}") `shouldBe` 0
+      it "returns the correct value for <!!!>>" $ partTwo (parseLine "{<!!!>>}") `shouldBe` 0
+      it "returns the correct value for <{o\"i!a,<{i<a>" $ partTwo (parseLine "{<{o\"i!a,<{i<a>}") `shouldBe` 10
