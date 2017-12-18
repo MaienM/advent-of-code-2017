@@ -1,7 +1,7 @@
 module Common.Megaparsec where
 
 import Data.Void (Void)
-import Control.Applicative (empty)
+import Control.Applicative (empty, (<*))
 import qualified Text.Megaparsec as P
 import qualified Text.Megaparsec.Char as C
 import qualified Text.Megaparsec.Char.Lexer as L
@@ -21,24 +21,16 @@ lexeme = L.lexeme spaceConsumer
 symbol :: String -> Parser String
 symbol = L.symbol spaceConsumer
 
--- Some common symbols
-symbolParens = P.between (symbol "(") (symbol ")")
-symbolBraces = P.between (symbol "{") (symbol "}")
-symbolAngles = P.between (symbol "<") (symbol ">")
-symbolBrackets = P.between (symbol "[") (symbol "]")
-symbolSemicolon = symbol ";"
-symbolComma = symbol ","
-symbolColon = symbol ":"
-symbolDot = symbol "."
-symbolArrow = symbol "->"
-
 -- A version of <|> that doesn't care whether the first parser consumed any input before failing
 (<||>) :: Parser a -> Parser a -> Parser a
 p <||> q = P.try p P.<|> q
 
--- For these exercises error handling isn't really that important, so simplify parsing by ignoring this
-parse :: Parser a -> String -> a
-parse parser line = do
-   let (Right result) = P.parse parser "" line
-   result
+-- A version of parse that requires consuming all input, and that removes the name field
+parseE :: Parser a -> String -> Either (P.ParseError (P.Token String) Void) a
+parseE p i = P.parse (p <* P.eof) "" i
 
+-- A version of parseE that errors out on failures
+parseE' :: Parser a -> String -> a
+parseE' parser line = do
+   let (Right result) = parseE parser line
+   result

@@ -1,21 +1,20 @@
 module AOC09 where
-import Common.Megaparsec (Parser, parse, (<||>), symbolAngles, symbolBraces, symbolComma)
+import Common.Megaparsec (Parser, parseE', (<||>))
 import Control.Applicative ((<*), (*>))
 import Data.Either (rights)
 import qualified Text.Megaparsec as P
 import qualified Text.Megaparsec.Char as C
-import qualified Text.Megaparsec.Char.Lexer as L
 
 -- Type representing a node in the input
 data Node = Group { children :: [Node] } | Garbage { contents :: String } deriving (Show, Eq)
 
 -- Parse a line into a Group
 matchEscape = C.char '!' *> C.anyChar :: Parser Char
-matchGarbage = symbolAngles (Garbage <$> rights <$> P.many (P.eitherP matchEscape (C.notChar '>'))) :: Parser Node
-matchGroup = symbolBraces (Group <$> P.sepBy matchNode symbolComma) :: Parser Node
+matchGarbage = C.char '<' *> (Garbage <$> rights <$> P.many (P.eitherP matchEscape (C.notChar '>'))) <* C.char '>' :: Parser Node
+matchGroup = C.char '{' *> (Group <$> P.sepBy matchNode (C.char ',')) <* C.char '}' :: Parser Node
 matchNode = matchGroup <||> matchGarbage :: Parser Node
 parseLine :: String -> Node
-parseLine = parse matchGroup
+parseLine = parseE' matchGroup
 
 -- Calculate the score of a Group + all nested Groups
 score :: Int -> Node -> Int
@@ -37,6 +36,6 @@ partTwo = garbage
 
 main = do
    input <- getLine
-   let group = parse matchGroup input
+   let group = parseLine input
    putStrLn (show (partOne group))
    putStrLn (show (partTwo group))
