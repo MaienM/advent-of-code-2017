@@ -1,8 +1,8 @@
 module AOC09Spec where
+import AOC09 (Node(..), matchEscape, matchGarbage, matchGroup, parseLine, partOne, partTwo)
 import Common.Megaparsec (parseE)
 import Test.Hspec
 import Test.Hspec.Megaparsec
-import AOC09 (Node(..), matchEscape, matchGarbage, matchGroup, parseLine, partOne, partTwo)
 
 main :: IO ()
 main = hspec $ do

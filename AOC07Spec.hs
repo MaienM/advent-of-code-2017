@@ -1,6 +1,6 @@
 module AOC07Spec where
-import Test.Hspec
 import AOC07 (Program(Program), Tree(Tree), parseLine, root, toTree, fullWeight, validateWeight, partOne, partTwo)
+import Test.Hspec
 
 exampleInput = [
    "pbga (66)",

@@ -1,6 +1,6 @@
 module CommonSpec where
-import Test.Hspec
 import Common (numbers, orelse)
+import Test.Hspec
 
 main :: IO ()
 main = hspec $ do

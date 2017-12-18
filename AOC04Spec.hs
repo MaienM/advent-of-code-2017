@@ -1,6 +1,6 @@
 module AOC04Spec where
-import Test.Hspec
 import AOC04 (hasDuplicates, partOne, partTwo)
+import Test.Hspec
 
 main :: IO ()
 main = hspec $ do

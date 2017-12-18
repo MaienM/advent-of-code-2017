@@ -1,6 +1,6 @@
 module AOC06Spec where
-import Test.Hspec
 import AOC06 (rebalanceBanks, rebalanceBanksUntilStable, partOne, partTwo)
+import Test.Hspec
 
 main :: IO ()
 main = hspec $ do

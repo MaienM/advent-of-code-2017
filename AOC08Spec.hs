@@ -1,6 +1,6 @@
 module AOC08Spec where
-import Test.Hspec
 import AOC08 (Instruction(..), Action(..), set, emptyRegisters, perform, apply, change, check, target, operation, amount, parseLine, partOne, partTwo)
+import Test.Hspec
 
 exampleInstructions = [
    Instruction (Action "b" (+) 5) (Action "a" (>) 1),

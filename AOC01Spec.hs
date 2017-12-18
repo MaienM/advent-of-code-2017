@@ -1,6 +1,6 @@
 module AOC01Spec where
-import Test.Hspec
 import AOC01 (shift, matching, partOne, partTwo)
+import Test.Hspec
 
 intShift :: [Int] -> Int -> [Int]
 intShift a b = (shift a b) :: [Int]

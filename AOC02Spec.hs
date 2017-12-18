@@ -1,6 +1,6 @@
 module AOC02Spec where
-import Test.Hspec
 import AOC02 (spread, divisible, partOne, partTwo)
+import Test.Hspec
 
 main :: IO ()
 main = hspec $ do

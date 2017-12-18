@@ -1,6 +1,6 @@
 module AOC03Spec where
-import Test.Hspec
 import AOC03 (indexToOffset, offsetToIndex, adjacentLowerIndexes, stressValue, partOne, partTwo)
+import Test.Hspec
 
 main :: IO ()
 main = hspec $ do
