@@ -19,22 +19,21 @@ data Movement = Movement {
 add :: Movement -> Movement -> Movement
 add (Movement a1 b1 c1 d1 e1 f1) (Movement a2 b2 c2 d2 e2 f2) = Movement (a1+a2) (b1+b2) (c1+c2) (d1+d2) (e1+e2) (f1+f2)
 
--- Build a movement object from a list of directions
-fromDirections :: [String] -> Movement
-fromDirections [] = Movement 0 0 0 0 0 0
-fromDirections ("nw":rest) = Movement 1 0 0 0 0 0 `add` fromDirections rest
-fromDirections ("n":rest)  = Movement 0 1 0 0 0 0 `add` fromDirections rest
-fromDirections ("ne":rest) = Movement 0 0 1 0 0 0 `add` fromDirections rest
-fromDirections ("se":rest) = Movement 0 0 0 1 0 0 `add` fromDirections rest
-fromDirections ("s":rest)  = Movement 0 0 0 0 1 0 `add` fromDirections rest
-fromDirections ("sw":rest) = Movement 0 0 0 0 0 1 `add` fromDirections rest
-fromDirections (_:rest) = error "Invalid direction"
+-- Convert a direction to a movement
+direction :: String -> Movement
+direction "nw" = Movement 1 0 0 0 0 0
+direction "n"  = Movement 0 1 0 0 0 0
+direction "ne" = Movement 0 0 1 0 0 0
+direction "se" = Movement 0 0 0 1 0 0
+direction "s"  = Movement 0 0 0 0 1 0
+direction "sw" = Movement 0 0 0 0 0 1
+direction _ = error "Invalid direction"
 
--- Parse a line into a Movement
+-- Parse a line into a list of Movements
 directions = ["nw", "ne", "n", "sw", "se", "s"]
-matchDirection = foldl1 (P.<|>) (map symbol directions) :: Parser String
-matchLine = fromDirections <$> P.sepBy matchDirection (C.char ',') :: Parser Movement
-parseLine :: String -> Movement
+matchDirection = direction <$> foldl1 (P.<|>) (map symbol directions) :: Parser Movement
+matchLine = P.sepBy matchDirection (C.char ',') :: Parser [Movement]
+parseLine :: String -> [Movement]
 parseLine = parseE' matchLine
 
 -- Simpify a Movement by removing moves that cancel each other out
@@ -66,21 +65,22 @@ simplify mov = simplifyCancel (simplifyMerge (mov))
 
 -- Count the amount of steps in a Movement
 count :: Movement -> Int
-count mov = do
-   let (Movement a b c d e f) = simplify mov
-   a + b + c + d + e + f
+count (Movement a b c d e f) = a + b + c + d + e + f
 
 -- Get the solution for part 1
-partOne :: Movement -> Int
-partOne = count
+partOne :: [Movement] -> Int
+partOne movements = count (simplify (foldl1 add movements))
 
 -- Get the solution for part 2
-partTwo :: [Int] -> Int
-partTwo digits = 0
+partTwo :: [Movement] -> Int
+partTwo [] = 0
+partTwo [mov] = count mov
+partTwo (m1:m2:rest) = do
+   let mov = simplify (add m1 m2)
+   maximum [count mov, partTwo (mov:rest)]
 
 main = do
-   -- input <- getContents
    input <- getLine
-   let movement = parseLine input
-   putStrLn (show (partOne movement))
-   -- putStrLn (show (partTwo digits))
+   let movements = parseLine input
+   putStrLn (show (partOne movements))
+   putStrLn (show (partTwo movements))
