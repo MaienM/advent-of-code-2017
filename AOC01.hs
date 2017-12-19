@@ -1,12 +1,5 @@
 module AOC01 where
-import Common (numbers)
-
--- Shift all items in a list by a given amount, wrapping around to the first position for the items at the end
-shift :: [a] -> Int -> [a]
-shift [] _ = []
-shift list n = do
-   let (a, b) = splitAt (mod (-n) (length list)) list
-   b ++ a
+import Common (numbers, shift)
 
 -- Get all numbers of tuples that contain the same numbers
 matching :: [(Int, Int)] -> [Int]

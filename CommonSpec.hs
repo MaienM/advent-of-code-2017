@@ -1,6 +1,9 @@
 module CommonSpec where
-import Common (numbers, orelse)
+import Common (numbers, orelse, shift)
 import Test.Hspec
+
+intShift :: [Int] -> Int -> [Int]
+intShift = shift
 
 main :: IO ()
 main = hspec $ do
@@ -24,3 +27,13 @@ main = hspec $ do
          it "considers a non-empty list to be truthy" $ [1] `orelse` [3] `shouldBe` [1]
          it "considers a list with only falsy values to be truthy" $ [0] `orelse` [3] `shouldBe` [0]
          it "is chainable" $ [] `orelse` [1] `orelse` [3] `shouldBe` [1]
+
+   describe "shift" $ do
+      it "returns an empty list when given an empty list" $ intShift [] 1 `shouldBe` []
+      it "returns the input when shifting by 0" $ intShift [1, 2, 3] 0 `shouldBe` [1, 2, 3]
+      it "returns the input when shifting by the length of the input" $ intShift [1, 2, 3] 3 `shouldBe` [1, 2, 3]
+      it "returns a shifted list when shifting by 1" $ intShift [1, 2, 3] 1 `shouldBe` [3, 1, 2]
+      it "returns a shifted list when shifting by 2" $ intShift [1, 2, 3] 2 `shouldBe` [2, 3, 1]
+      it "returns a shifted list when shifting by the length of the input + 1" $ intShift [1, 2, 3] 4 `shouldBe` [3, 1, 2]
+      it "returns a shifted list when shifting by the length of the input + 2" $ intShift [1, 2, 3] 5 `shouldBe` [2, 3, 1]
+

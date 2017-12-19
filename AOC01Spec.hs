@@ -1,21 +1,9 @@
 module AOC01Spec where
-import AOC01 (shift, matching, partOne, partTwo)
+import AOC01 (matching, partOne, partTwo)
 import Test.Hspec
-
-intShift :: [Int] -> Int -> [Int]
-intShift a b = (shift a b) :: [Int]
 
 main :: IO ()
 main = hspec $ do
-   describe "shift" $ do
-      it "returns an empty list when given an empty list" $ intShift [] 1 `shouldBe` []
-      it "returns the input when shifting by 0" $ intShift [1, 2, 3] 0 `shouldBe` [1, 2, 3]
-      it "returns the input when shifting by the length of the input" $ intShift [1, 2, 3] 3 `shouldBe` [1, 2, 3]
-      it "returns a shifted list when shifting by 1" $ intShift [1, 2, 3] 1 `shouldBe` [3, 1, 2]
-      it "returns a shifted list when shifting by 2" $ intShift [1, 2, 3] 2 `shouldBe` [2, 3, 1]
-      it "returns a shifted list when shifting by the length of the input + 1" $ intShift [1, 2, 3] 4 `shouldBe` [3, 1, 2]
-      it "returns a shifted list when shifting by the length of the input + 2" $ intShift [1, 2, 3] 5 `shouldBe` [2, 3, 1]
-
    describe "matching" $ do
       it "returns an empty list when given an empty list" $ matching [] `shouldBe` []
       it "returns an empty list if there are no matching items" $ matching [(1, 3), (1, 2)] `shouldBe` []
