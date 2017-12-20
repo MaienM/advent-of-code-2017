@@ -5,6 +5,7 @@ import Control.Applicative (empty, (<*))
 import qualified Text.Megaparsec as P
 import qualified Text.Megaparsec.Char as C
 import qualified Text.Megaparsec.Char.Lexer as L
+import Text.Megaparsec.Error (parseErrorPretty')
 
 -- Parser for string
 type Parser = P.Parsec Void String
@@ -31,6 +32,7 @@ parseE p i = P.parse (p <* P.eof) "" i
 
 -- A version of parseE that errors out on failures
 parseE' :: Parser a -> String -> a
-parseE' parser line = do
-   let (Right result) = parseE parser line
-   result
+parseE' parser input =
+   case (parseE parser input) of
+      Left err -> error (parseErrorPretty' input err)
+      Right result -> result
