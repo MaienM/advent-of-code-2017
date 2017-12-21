@@ -12,7 +12,7 @@ type Parser = P.Parsec Void String
 
 -- Whitespace consumer
 spaceConsumer :: Parser ()
-spaceConsumer = L.space C.space1 empty empty
+spaceConsumer = L.space (P.skipSome (C.char ' ')) empty empty
 
 -- Lexeme
 lexeme :: Parser a -> Parser a

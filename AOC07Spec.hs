@@ -1,8 +1,12 @@
 module AOC07Spec where
-import AOC07 (Program(Program), Tree(Tree), parseLine, root, toTree, fullWeight, validateWeight, partOne, partTwo)
+import AOC07 (Program(..), PTree(..), parseInput, matchInput, matchLine, root, fullWeight, validateWeight, partOne, partTwo)
+import Common.Tree (buildTree)
+import Common.Megaparsec (parseE)
 import Test.Hspec
+import Test.Hspec.Megaparsec
+import qualified Text.Megaparsec as P
 
-exampleInput = [
+exampleInput = unlines [
    "pbga (66)",
    "xhth (57)",
    "ebii (61)",
@@ -17,41 +21,46 @@ exampleInput = [
    "gyxo (61)",
    "cntj (57)"
    ]
-examplePrograms = [
+
+simpleInput = unlines [
+   "foo (10) -> a, b, c",
+   "a (10)",
+   "b (11)",
+   "c (10)"
+   ]
+simplePrograms = [
    Program "foo" 10 ["a", "b", "c"],
    Program "a" 10 [],
    Program "b" 11 [],
    Program "c" 10 []
    ]
-exampleTree = Tree (examplePrograms !! 0) [
-   Tree (examplePrograms !! 1) [],
-   Tree (examplePrograms !! 2) [],
-   Tree (examplePrograms !! 3) []
-   ]
+simpleTree = buildTree name children simplePrograms
 
 main :: IO ()
 main = hspec $ do
-   describe "parseLine" $ do
-      it "returns the correct value for aaa (10)" $ parseLine "aaa (10)" `shouldBe` Program "aaa" 10 []
-      it "returns the correct value for aaa (10) -> b, c, d" $ parseLine "aaa (10) -> b, c, d" `shouldBe` Program "aaa" 10 ["b", "c", "d"]
+   describe "matchLine" $ do
+      it "parses a line without children" $ parseE matchLine "aaa (10)" `shouldParse` Program "aaa" 10 []
+      it "parses a line with children" $ parseE matchLine "aaa (10) -> b, c, d" `shouldParse` Program "aaa" 10 ["b", "c", "d"]
+      it "does not parse a line with children but without weight" $ parseE matchLine `shouldFailOn` "aaa -> b, c, d"
+      it "does not parse a line without weight or children" $ parseE matchLine `shouldFailOn` "aaa"
+
+   describe "matchInput" $ do
+      it "parses the example" $ parseE matchInput simpleInput `shouldParse` simpleTree
 
    describe "root" $ do
-      it "returns the correct value for a simple tree" $ root examplePrograms `shouldBe` "foo"
-
-   describe "toTree" $ do
-      it "returns the correct value for a simple tree" $ toTree examplePrograms `shouldBe` exampleTree
+      it "returns the correct value for a simple tree" $ root simplePrograms `shouldBe` "foo"
 
    describe "fullWeight" $ do
-      it "returns the correct value for a node without children" $ fullWeight (Tree (examplePrograms !! 0) []) `shouldBe` 10
-      it "returns the correct value for a node with children" $ fullWeight exampleTree `shouldBe` 41
+      it "returns the correct value for a node without children" $ fullWeight (buildTree name children [(last simplePrograms)]) `shouldBe` 10
+      it "returns the correct value for a node with children" $ fullWeight simpleTree `shouldBe` 41
 
    describe "validateWeight" $ do
-      it "returns the correct value for a simple tree" $ validateWeight exampleTree `shouldBe` (examplePrograms !! 2, 1)
+      it "returns the correct value for a simple tree" $ validateWeight simpleTree `shouldBe` (simplePrograms !! 2, 1)
 
    describe "partOne" $ do
-      it "returns the correct value for a simple tree" $ partOne examplePrograms `shouldBe` "foo"
-      it "returns the correct value for the example" $ partOne (map parseLine exampleInput) `shouldBe` "tknk"
+      it "returns the correct value for a simple tree" $ partOne simpleTree `shouldBe` "foo"
+      it "returns the correct value for the example" $ partOne (parseInput exampleInput) `shouldBe` "tknk"
 
    describe "partTwo" $ do
-      it "returns the correct value for a simple tree" $ partTwo examplePrograms `shouldBe` 10
-      it "returns the correct value for the example" $ partTwo (map parseLine exampleInput) `shouldBe` 60
+      it "returns the correct value for a simple tree" $ partTwo simpleTree `shouldBe` 10
+      it "returns the correct value for the example" $ partTwo (parseInput exampleInput) `shouldBe` 60
