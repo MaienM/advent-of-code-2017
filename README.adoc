@@ -1,0 +1,43 @@
+= Advent of Code 2017
+
+== Setup
+
+To get all dependencies, run:
+
+----
+cabal sandbox init
+cabal install --only-dependencies --enable-tests
+----
+
+== Tests
+
+To run all tests and get terse output, run:
+
+----
+cabal test
+----
+
+To get more detailed output, run:
+
+----
+./scripts/test.sh
+----
+
+To run only the tests for a specific module, pass the name as a parameter:
+
+----
+./scripts/test.sh Common
+----
+
+== Output
+
+Put the input files in a folder named `input`. Each file name should be in the same format as the module names, ending
+with `.txt` (`AOC01.txt`, etc.).
+
+To run the code for a given day, run:
+
+----
+./scripts/run.sh 01
+----
+
+This will output two lines, which are the answers for part one and two.
