@@ -11,7 +11,10 @@ exampleInstructions = [
 exampleRegisters = (set "a" 1 . set "b" 2 . set "c" 3) emptyRegisters
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "parseLine" $ do
       it "parses change target correctly" $ (target . change) (parseLine "a inc 1 if b > 2") `shouldBe` "a"
       describe "parses change operation correctly" $ do

@@ -37,7 +37,10 @@ simplePrograms = [
 simpleTree = buildTree name children simplePrograms
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "matchLine" $ do
       it "parses a line without children" $ parseE matchLine "aaa (10)" `shouldParse` Program "aaa" 10 []
       it "parses a line with children" $ parseE matchLine "aaa (10) -> b, c, d" `shouldParse` Program "aaa" 10 ["b", "c", "d"]

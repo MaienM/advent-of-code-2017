@@ -3,7 +3,10 @@ import AOC04 (hasDuplicates, partOne, partTwo)
 import Test.Hspec
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "hasDuplicates" $ do
       it "returns false for an empty list" $ hasDuplicates [] `shouldBe` False
       it "returns false for a list without duplicates" $ hasDuplicates ["aa", "bb"] `shouldBe` False

@@ -1,0 +1,66 @@
+-- This file has been generated from package.yaml by hpack version 0.20.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: cdb673bb94c5247a1d75c5bb5efc8aa3edeb48c8c7eb76c80d183fdb35a1d4b9
+
+name:           advent-of-code
+version:        0.2017.11.2.0
+homepage:       https://github.com/MaienM/advent-of-code-2017#readme
+bug-reports:    https://github.com/MaienM/advent-of-code-2017/issues
+author:         Michon van Dooren <michon1992@gmail.com>
+maintainer:     Michon van Dooren <michon1992@gmail.com>
+copyright:      (c) 2017 Michon van Dooren
+license:        MIT
+build-type:     Simple
+cabal-version:  >= 1.10
+
+source-repository head
+  type: git
+  location: https://github.com/MaienM/advent-of-code-2017
+
+test-suite spec
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  hs-source-dirs:
+      src
+      test
+  ghc-options: -Wall
+  build-depends:
+      base ==4.*
+    , containers ==0.5.*
+    , hspec ==2.*
+    , hspec-megaparsec ==1.*
+    , megaparsec ==6.*
+    , memoize ==0.8.*
+    , split ==0.2.*
+  other-modules:
+      AOC01
+      AOC02
+      AOC03
+      AOC04
+      AOC05
+      AOC06
+      AOC07
+      AOC08
+      AOC09
+      AOC10
+      AOC11
+      Common
+      Common.Megaparsec
+      Common.Tree
+      AOC01Spec
+      AOC02Spec
+      AOC03Spec
+      AOC04Spec
+      AOC05Spec
+      AOC06Spec
+      AOC07Spec
+      AOC08Spec
+      AOC09Spec
+      AOC10Spec
+      AOC11Spec
+      Common.TreeSpec
+      CommonSpec
+      Paths_advent_of_code
+  default-language: Haskell2010

@@ -3,7 +3,10 @@ import AOC02 (spread, divisible, partOne, partTwo)
 import Test.Hspec
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "spread" $ do
       it "returns the correct value for an empty list" $ spread [] `shouldBe` 0
       it "returns the correct value for a list with one element" $ spread [1] `shouldBe` 0

@@ -5,7 +5,10 @@ import Test.Hspec
 import Test.Hspec.Megaparsec
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "add" $ do
       it "returns the correct value for (1 2 3 4 5 6) (10 20 30 40 50 60)" $ add (Movement 1 2 3 4 5 6) (Movement 10 20 30 40 50 60) `shouldBe` Movement  11 22 33 44 55 66
 

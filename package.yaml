@@ -1,0 +1,27 @@
+name: advent-of-code
+# Version is 0.year.day.part.patch
+version: 0.2017.11.2.0
+license: MIT
+copyright: (c) 2017 Michon van Dooren
+github: MaienM/advent-of-code-2017
+author: Michon van Dooren <michon1992@gmail.com>
+maintainer: Michon van Dooren <michon1992@gmail.com>
+
+ghc-options: -Wall
+
+source-dirs: src
+
+dependencies:
+   - base == 4.*
+   - containers == 0.5.*
+   - megaparsec == 6.*
+   - memoize == 0.8.*
+   - split == 0.2.*
+
+tests:
+   spec:
+      main: Spec.hs
+      source-dirs: test
+      dependencies:
+         - hspec == 2.*
+         - hspec-megaparsec == 1.*

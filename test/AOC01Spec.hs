@@ -3,7 +3,10 @@ import AOC01 (matching, partOne, partTwo)
 import Test.Hspec
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "matching" $ do
       it "returns an empty list when given an empty list" $ matching [] `shouldBe` []
       it "returns an empty list if there are no matching items" $ matching [(1, 3), (1, 2)] `shouldBe` []

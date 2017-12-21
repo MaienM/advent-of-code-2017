@@ -6,7 +6,10 @@ intShift :: [Int] -> Int -> [Int]
 intShift = shift
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "numbers" $ do
       it "returns an empty list when given an empty list" $ numbers [] `shouldBe` []
       it "works for single-digit numbers" $ numbers ["1", "2", "3"] `shouldBe` [1, 2, 3]

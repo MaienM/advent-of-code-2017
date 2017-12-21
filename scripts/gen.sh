@@ -1,6 +1,8 @@
 #!/bin/sh
 
-cat <<EOF > AOC$1.hs
+src="src/AOC$1.hs"
+echo "Generating source in '$src'"
+cat <<EOF > "$src"
 module AOC$1 where
 import Common (numbers)
 import Common.Megaparsec (Parser, parseE', (<||>))
@@ -33,7 +35,9 @@ main = do
    putStrLn (show (partTwo digits))
 EOF
 
-cat <<EOF > AOC$1Spec.hs
+test="test/AOC$1Spec.hs"
+echo "Generating tests in '$test'"
+cat <<EOF > "$test"
 module AOC$1Spec where
 import AOC$1 (matchData, partOne, partTwo)
 import Common.Megaparsec (parseE)
@@ -41,10 +45,13 @@ import Test.Hspec
 import Test.Hspec.Megaparsec
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "matchData" $ do
-      it "parses anything" $ parseE matchEscape "foo" \`shouldParse\` "foo"
-      it "does not parse an empty string" $ parseE matchEscape \`shouldFailOn\` ""
+      it "parses anything" $ parseE matchData "foo" \`shouldParse\` "foo"
+      it "does not parse an empty string" $ parseE matchData \`shouldFailOn\` ""
 
    describe "partOne" $ do
       it "returns the correct value for [1, 2, 3]" $ partOne [1, 2, 2] \`shouldBe\` 0

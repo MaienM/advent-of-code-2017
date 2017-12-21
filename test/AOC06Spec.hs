@@ -3,7 +3,10 @@ import AOC06 (rebalanceBanks, rebalanceBanksUntilStable, partOne, partTwo)
 import Test.Hspec
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "rebalanceBanks" $ do
       it "returns the correct value for [0, 2, 7, 0]" $ rebalanceBanks [0, 2, 7, 0] `shouldBe` [2, 4, 1, 2]
       it "returns the correct value for [2, 4, 1, 2]" $ rebalanceBanks [2, 4, 1, 2] `shouldBe` [3, 1, 2, 3]

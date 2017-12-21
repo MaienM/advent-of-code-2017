@@ -1,7 +1,4 @@
-*.hi
-*.o
-*.dyn_hi
-*.dyn_o
-*.txt
-/AOC[0-9]*
-!*.hs
+dist/
+input/
+.cabal-sandbox/
+cabal.sandbox.config

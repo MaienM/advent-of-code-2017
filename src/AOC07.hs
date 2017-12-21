@@ -1,5 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
-
 module AOC07 where
 import Common.Tree (buildTree)
 import Common.Megaparsec (Parser, parseE', lexeme, symbol)

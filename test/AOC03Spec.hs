@@ -3,7 +3,10 @@ import AOC03 (indexToOffset, offsetToIndex, adjacentLowerIndexes, stressValue, p
 import Test.Hspec
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "indexToOffset" $ do
       it "returns the correct offset for 1" $ indexToOffset 1 `shouldBe` (0, 0)
       it "returns the correct offset for 2" $ indexToOffset 2 `shouldBe` (1, 0)

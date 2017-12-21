@@ -13,7 +13,10 @@ exampleItems = [
    ]
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "buildTree" $ do
       it "returns a tree with the correct root for the example" $ rootLabel (buildTree key children exampleItems) `shouldBe` head exampleItems
       it "fails for a tree without a root" $ evaluate (buildTree key children [Item "a" ["b"], Item "b" ["a"]]) `shouldThrow` errorCall "Tree has no root"

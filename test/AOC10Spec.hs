@@ -5,7 +5,10 @@ import Test.Hspec
 import Test.Hspec.Megaparsec
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "matchLineOne" $ do
       it "parses a comma-separated list of numbers" $ parseE matchLineOne "1, 2" `shouldParse` [1, 2]
 

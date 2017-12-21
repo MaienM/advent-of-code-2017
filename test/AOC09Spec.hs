@@ -5,7 +5,10 @@ import Test.Hspec
 import Test.Hspec.Megaparsec
 
 main :: IO ()
-main = hspec $ do
+main = hspec spec
+
+spec :: Spec
+spec = do
    describe "matchEscape" $ do
       it "parses an escaped escape character" $ parseE matchEscape "!!" `shouldParse` '!'
       it "parses an escaped group start character" $ parseE matchEscape "!{" `shouldParse` '{'
